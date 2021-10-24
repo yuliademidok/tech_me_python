@@ -48,16 +48,16 @@
 
 
 def some_zip(*args):
-        idx = 0
-        while True:
-            result = []
-            for i in args:
-                try:
-                    result.append(i[idx])
-                except IndexError:
-                    return None
-            yield tuple(result)
-            idx += 1
+    idx = 0
+    while True:
+        result = []
+        for i in args:
+            try:
+                result.append(i[idx])
+            except IndexError:
+                return None
+        yield tuple(result)
+        idx += 1
 
 
 a = [1, 2, 3, 4]
