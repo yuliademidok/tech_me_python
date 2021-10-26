@@ -1,4 +1,4 @@
-from lesson6 import tic_tac_toy
+from lesson6.tic_tac_toy import matrix_match
 
 
 def test_matrix():
@@ -33,7 +33,7 @@ def test_matrix():
     )
 
     for test in matrix_tests:
-        assert tic_tac_toy.matrix_match(test[0]) is test[1], test[0]
+        assert matrix_match(test[0]) is test[1], test[0]
 
 
 test_matrix()
