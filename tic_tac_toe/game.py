@@ -1,7 +1,7 @@
 from itertools import cycle
 
-from tic_tac_toe.board import get_board, board_match
-from tic_tac_toe.steps import user_step
+from tic_tac_toe.board import get_board, board_match, is_draw
+from tic_tac_toe.steps import make_step, want_new_game
 from tic_tac_toe.users import ask_mode, create_users
 
 
@@ -13,8 +13,15 @@ def game_init() -> dict:
     }
 
 
+game_vars = game_init()
+
+
 def game_end():
-    pass
+    if want_new_game():
+        game_vars['board'] = get_board(3)
+        game_cycle(**game_vars)
+    else:
+        print("До встречи")
 
 
 def game_cycle(users: list[dict, ...], board: list[list]):
@@ -24,16 +31,17 @@ def game_cycle(users: list[dict, ...], board: list[list]):
     # Проверяем выйгрышный вариант
     # Либо поздравить с победой, либо обьявить Ничью
     for step_num, user in enumerate(cycle(users), 1):
-        print(f"Ход Игрока: {user['name']}")
-        user_step(user, board)
+        print(f"Ход {step_num} Игрока: {user['name']}")
+        make_step(user, board)
         if board_match(board):
-            print(f"Победил {user['name']}")
+            print(f"Победил {user['name']} на ходе #{step_num}")
             break
-        if step_num >= 8:
+        if is_draw(board):
             print("Ничья")
             break
-    print("END GAME")
+
+    game_end()
 
 
-game_vars = game_init()
 game_cycle(**game_vars)
+
