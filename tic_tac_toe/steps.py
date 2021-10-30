@@ -1,8 +1,6 @@
 import random
 from itertools import count
 
-from tic_tac_toe.board import display_board, get_board
-
 
 def get_step() -> list[int, int]:
     while True:
@@ -37,7 +35,6 @@ def user_step(user: dict, board: list[list]):
         step = get_step()
         if chek_step(board, step):
             board[step[0] - 1][step[1] - 1] = user["symbol"]
-            display_board(board)
             break
         else:
             print("Ячейка не существует или занята")
@@ -45,13 +42,10 @@ def user_step(user: dict, board: list[list]):
 
 
 def computer_step(user: dict, board: list[list]):
-    possible_steps = []
-    for row in board:
-        possible_steps.extend([(board.index(row), i) for i, j in zip(count(), row) if j == 0])
-
-    comp_step = random.choice(possible_steps)
+    board_size = len(board)
+    possible_steps = set((i, j) for i in range(board_size) for j in range(board_size))
+    comp_step = random.choice(tuple(possible_steps.difference(user["all_steps"])))
     board[comp_step[0]][comp_step[1]] = user["symbol"]
-    display_board(board)
 
 
 def make_step(user: dict, board: list[list]):
@@ -61,14 +55,12 @@ def make_step(user: dict, board: list[list]):
         user_step(user, board)
 
 
-def want_new_game() -> bool:
-    new_game_string = "Желаете начать новую игру?\ny/N>>>"
+def ask_new_game() -> bool:
+    variants = ('Y', 'N')
+
     while True:
-        user_answer = input(new_game_string)
-        if user_answer.lower() == 'y':
-            return True
-        if user_answer.lower() in ('', 'n'):
-            return False
-        else:
-            print("Ошибка ввода, введите верное значение")
-            continue
+        user_answer = input(f"Желаете начать новую игру? {'/'.join(variants)}").upper()
+        if user_answer in variants:
+            return user_answer == variants[0]
+        print("Ошибка ввода, введите верное значение")
+

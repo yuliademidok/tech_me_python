@@ -12,5 +12,6 @@ USER_TEMPLATE = (
     ("name", lambda *args, **kwargs: input("ВВЕДИТЕ ВАШЕ ИМЯ")),
     ("symbol", lambda symbol, *args, **kwargs: symbol),
     ("steps", lambda *args, **kwargs: list()),
+    ("all_steps", lambda *args, **kwargs: set()),
     ("mode", lambda mode, *args, **kwargs: mode),
 )
