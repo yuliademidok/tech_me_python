@@ -1,18 +1,18 @@
 import random
 
 
-user_name = ["Gauss", "Bill", "Illon", "R2D2"]
-homes = ["Berlin", "LA", "Death Star"]
-
-users = [
-    {
-        "name": random.choice(user_name),
-        "age": random.randint(30, 80),
-        "home": random.choice(homes),
-    }
-    for _ in range(20)
-]
-delim = ','
+# user_name = ["Gauss", "Bill", "Illon", "R2D2"]
+# homes = ["Berlin", "LA", "Death Star"]
+#
+# users = [
+#     {
+#         "name": random.choice(user_name),
+#         "age": random.randint(30, 80),
+#         "home": random.choice(homes),
+#     }
+#     for _ in range(20)
+# ]
+# delim = ','
 
 # file = open("users", "w", encoding="UTF-8")
 # try:
@@ -26,19 +26,19 @@ delim = ','
 #     file.close()
 
 
-result = []
-keys = []
-file = open("users", 'r', encoding="UTF-8")
-
-# переместиться на конец 1й строки
-for idx, line in enumerate(file):
-    if not idx:
-        keys = line[:-1].split(delim)
-    else:
-        values = line[:-1].split(delim)
-        result.append(dict(zip(keys, values)))
-file.close()
-print(result)
+# result = []
+# keys = []
+# file = open("users", 'r', encoding="UTF-8")
+#
+# # переместиться на конец 1й строки
+# for idx, line in enumerate(file):
+#     if not idx:
+#         keys = line[:-1].split(delim)
+#     else:
+#         values = line[:-1].split(delim)
+#         result.append(dict(zip(keys, values)))
+# file.close()
+# print(result)
 
 
 
@@ -54,3 +54,7 @@ print(result)
 # finally:
 #     file.close()
 #
+
+from typing import List
+
+prices: tuple[int, ...] = (1, 2)
