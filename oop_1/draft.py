@@ -19,13 +19,16 @@ from datetime import date, timedelta
 # f - s == datetime.timedelta(1460)
 
 
-def days_diff(a, b):
-    a = date(*a)
-    b = date(*b)
-    # a = datetime.strptime(", ".join(map(str, a)), "%Y, %m, %d")
-    # b = datetime.strptime(", ".join(map(str, b)), "%Y, %m, %d")
-    c = b - a
-    return c.days
+# def days_diff(a, b):
+#     a = date(*a)
+#     b = date(*b)
+#     # a = datetime.strptime(", ".join(map(str, a)), "%Y, %m, %d")
+#     # b = datetime.strptime(", ".join(map(str, b)), "%Y, %m, %d")
+#     c = b - a
+#     return c.days
+#
+#
+# print(days_diff([1982,4,19], [1982,4,22]))
 
 
-print(days_diff([1982,4,19], [1982,4,22]))
+
