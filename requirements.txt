@@ -1,0 +1,2 @@
+SQLAlchemy~=1.4.27
+names>=0.3.0
