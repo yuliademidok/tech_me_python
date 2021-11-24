@@ -56,12 +56,12 @@ class MagnitShop(WebPage):
     def get_promo_title(self):
         return self._get_promo_data(Parser.promo_titles())
 
-    def get_promo_item_card(self):
-        return self._get_promo_data(Parser.promo_item_card())
+    # def get_promo_item_card(self):
+    #     return self._get_promo_data(Parser.promo_item_card())
 
     def get_promo_urls_and_titles(self):
         urls_titles = []
-        for i in self.get_promo_item_card():
+        for i in self.get_promo_urls():
             url = Parser.promo_urls().findall(i)
             title = Parser.promo_titles().findall(i)
             if (url, title) not in urls_titles:
