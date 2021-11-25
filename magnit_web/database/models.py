@@ -2,10 +2,8 @@ from sqlalchemy import (
     Column,
     Integer,
     String,
-    DateTime
 )
 
-# from .BaseMixin import BaseMixin
 from .meta import Base
 
 
