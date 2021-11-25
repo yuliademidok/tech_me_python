@@ -1,21 +1,27 @@
-import re
+from sqlalchemy.exc import IntegrityError
+
+from magnit_web.magnit_page import MagnitPage
+from magnit_web import database as db
 
 
 class Parser:
+    __products = []
 
-    @staticmethod
-    def promo_urls():
-        return re.compile(r"href=\"(/promo\S+)/\"")
+    def __init__(self, ):
+        page = MagnitPage()
+        self.items = page.get_promo_info()
+        self.session = db.start_session
 
-    @staticmethod
-    def promo_titles():
-        return re.compile(r"<div class=\"card-sale__title\"><p>(.+?)</p></div>")
+    def save_to_db(self):
+        for data in self.items:
+            self.__products.append(db.Magnit(**data))
 
-    @staticmethod
-    def promo_item_card():
-        return re.compile(r"href=\"(/promo[\S\n ]+)class=\"card-sale__footer")
-
-    @staticmethod
-    def promo_url_and_title():
-        return re.compile(r"href=\"(/promo/\S+)\"|<div class=\"card-sale__title\"><p>(.+?)</p></div>")
-
+            if len(self.__products) > 4:
+                try:
+                    self.session.add_all(self.__products)
+                    self.__products = []
+                    self.session.commit()
+                except IntegrityError:
+                    self.session.rollback()
+                finally:
+                    self.session.close()

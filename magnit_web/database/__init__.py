@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from magnit_web.database.meta import Base
-from magnit_web.database.models import Promo
+from magnit_web.database.models import Magnit
 from magnit_web.settings import DATABASES
 
 
