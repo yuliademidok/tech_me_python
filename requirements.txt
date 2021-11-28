@@ -1,3 +1,5 @@
-requests~=2.0.0
-bs4
+requests~=2.26.0
+bs4~=0.0.1
 lxml
+SQLAlchemy~=1.4.27
+beautifulsoup4~=4.10.0
