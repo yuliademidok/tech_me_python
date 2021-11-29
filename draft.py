@@ -34,18 +34,55 @@ from itertools import cycle
 
 class Warrior:
     def __init__(self):
-        self.health = 50
-        self.attack = 5
+        self.health = 50.0
+        self.attack = 5.0
 
     @property
     def is_alive(self) -> bool:
         return self.health > 0
 
+    def health_loss(self, enemy_attack_weight):
+        if self.health < enemy_attack_weight:
+            enemy_attack_weight = self.health
+        self.health -= enemy_attack_weight
+        return enemy_attack_weight
+
+    def heal(self, dealt_damage):
+        pass
+
 
 class Knight(Warrior):
     def __init__(self):
         super().__init__()
-        self.attack = 7
+        self.attack = 7.0
+
+
+class Defender(Warrior):
+    def __init__(self):
+        super().__init__()
+        self.health = 60.0
+        self.attack = 3.0
+        self.defense = 2.0
+
+    def health_loss(self, enemy_attack_weight):
+        attack = enemy_attack_weight - self.defense
+        if self.health < attack:
+            attack = self.health
+        if attack > 0:
+            self.health -= attack
+            return attack
+        return 0
+
+
+class Vampire(Warrior):
+    def __init__(self):
+        super().__init__()
+        self.health = 40.0
+        self.attack = 4.0
+        self.vampirism = 50
+
+    def heal(self, dealt_damage):
+        self.health += dealt_damage * (self.vampirism / 100)
 
 
 class Army:
@@ -78,20 +115,27 @@ class Battle:
         #     return True
 
         attack_weight = 0
+        dealt_damage = 0
         for i in cycle((arm_1, arm_2)):
             if len(arm_1.soldiers) == 0 or len(arm_2.soldiers) == 0:
                 break
-            i.soldiers[0].health -= attack_weight
-            attack_weight = i.soldiers[0].attack
-            i.soldiers = list(filter(lambda x: x.is_alive, i.soldiers))
+            i.soldiers[0].heal(dealt_damage)
+            dealt_damage = i.soldiers[0].health_loss(attack_weight)
 
+            i.soldiers = list(filter(lambda x: x.is_alive, i.soldiers))
+            if not(len(i.soldiers) == 0):
+
+                attack_weight = i.soldiers[0].attack
+                i.soldiers = list(filter(lambda x: x.is_alive, i.soldiers))
         return not len(arm_1.soldiers) == 0
 
 
 def fight(unit_1, unit_2):
     attack_weight = 0
+    dealt_damage = 0
     for i in cycle((unit_1, unit_2)):
-        i.health -= attack_weight
+        i.heal(dealt_damage)
+        dealt_damage = i.health_loss(attack_weight)
         attack_weight = i.attack
         if not (unit_1.is_alive and unit_2.is_alive):
             return unit_1.health > 0
@@ -99,11 +143,24 @@ def fight(unit_1, unit_2):
 
 army_1 = Army()
 army_2 = Army()
-army_1.add_units(Warrior, 20)
-army_2.add_units(Warrior, 21)
+army_1.add_units(Defender, 11)
+army_1.add_units(Vampire, 3)
+army_1.add_units(Warrior, 4)
+army_2.add_units(Warrior, 4)
+army_2.add_units(Defender, 4)
+army_2.add_units(Vampire, 13)
 battle = Battle()
 print(battle.fight(army_1, army_2))
+print(army_1.soldiers)
 print(army_2.soldiers[0].health)
+
+# army_1 = Army()
+# army_2 = Army()
+# army_1.add_units(Warrior, 20)
+# army_2.add_units(Warrior, 21)
+# battle = Battle()
+# print(battle.fight(army_1, army_2))
+# print(army_2.soldiers[0].health)
 
 
 # my_army = Army()
