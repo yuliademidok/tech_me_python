@@ -6,7 +6,6 @@ from urllib.parse import urljoin
 import requests
 import bs4
 
-from habr_parse.database import database
 from habr_parse.errors_handling import request_retry, soup_error_handling
 
 
@@ -50,22 +49,24 @@ class Parser:
                 self.save_to_db(data)
             yield data
 
-        # TODO: Не работает :(
-        if self.get_next_page():
-            self.run()
+        self.get_next_page()
 
     def get_next_page(self):
-        print("next page")
         soup = self.get_soup(self.start_url)
         href = soup.find("a", attrs="tm-pagination__navigation-link").attrs.get("href")
         link = urljoin(self.start_url, href)
         self.start_url = link
         self.tasks.append(self.get_task(self.start_url, self.rows_parse))
+
+        result = self.run()
+        for i in result:
+            print(i)
+
         return self.start_url
 
     def save_to_db(self, page_data):
-        # self.database.save_parse_data(page_data)
-        pass
+        self.database.save_parse_data(page_data)
+        # pass
 
     @request_retry(count=2)
     def _get_response(self, url):
