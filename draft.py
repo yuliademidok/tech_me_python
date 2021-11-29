@@ -123,10 +123,8 @@ class Battle:
             dealt_damage = i.soldiers[0].health_loss(attack_weight)
 
             i.soldiers = list(filter(lambda x: x.is_alive, i.soldiers))
-            if not(len(i.soldiers) == 0):
-
+            if i.soldiers:
                 attack_weight = i.soldiers[0].attack
-                i.soldiers = list(filter(lambda x: x.is_alive, i.soldiers))
         return not len(arm_1.soldiers) == 0
 
 
