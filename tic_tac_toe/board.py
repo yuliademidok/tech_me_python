@@ -1,17 +1,11 @@
 def get_board(size):
-    result = []
-    for _ in range(size):
-        row = []
-        for _ in range(size):
-            row.append(0)
-        result.append(row)
-    return result
+    return [[0 for _ in range(size)] for _ in range(size)]
 
 
 def board_match(board):
     def chek_line(line):
         line_set = set(line)
-        if (0 not in line_set and len(line_set) == 1):
+        if 0 not in line_set and len(line_set) == 1:
             raise ValueError("CHECK_LINE")
         return False
 
@@ -29,3 +23,14 @@ def board_match(board):
             raise exc
     return False
 
+
+def display_board(board):
+    board = [[symbol or '-' for symbol in row] for row in board]
+    counter = 1
+
+    print('#' * 8)
+    print("1 2 3".rjust(7, " "))
+    for raw in board:
+        print(f'{counter} {raw[0]}|{raw[1]}|{raw[2]}')
+        counter += 1
+    print('#' * 8)
